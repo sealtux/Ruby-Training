@@ -30,4 +30,11 @@ froends = ["jack","jordan","jollibee"]
 variables = froends.select{|friend| friend != "jordan"}
 puts variables.include?("jordan")
 
-numbers = 
+numbers = [100, 200, 300, 400, 500]
+variable = numbers.any?{|number| number < 100}
+puts variable
+
+fruits = ["apple", "banana", "orange"]
+
+ fruity = fruits.one?{|fruit| fruit.length == 5}
+puts "there exist a #{fruity}"
