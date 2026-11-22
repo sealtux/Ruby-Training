@@ -1,0 +1,15 @@
+<% content_for :title, "Create account" %>
+<div class="auth-layout">
+  <%= render "shared/auth_story" %>
+  <section class="auth-form">
+    <p class="eyebrow">Your next chapter starts here</p><h1>Make yourself at home.</h1><p class="page-subtitle !mb-7">Create your own little corner of Taskroom.</p>
+    <% if @user.errors.any? %><div role="alert" class="alert alert-error"><ul><% @user.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul></div><% end %>
+    <%= form_with model: @user, url: signup_path, local: true do |form| %>
+      <div class="field"><%= form.label :email, "Email address" %><%= form.email_field :email, required: true, autocomplete: "email", placeholder: "you@example.com" %></div>
+      <div class="field"><%= form.label :password %><%= form.password_field :password, required: true, minlength: 10, maxlength: 72, autocomplete: "new-password", placeholder: "Choose a strong password", aria: { describedby: "password-hint" } %><p id="password-hint" class="field-hint">Use at least 10 characters.</p></div>
+      <div class="field"><%= form.label :password_confirmation, "Confirm password" %><%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Type your password again" %></div>
+      <%= form.button class: "button w-full" do %>Create account <%= app_icon("arrow") %><% end %>
+    <% end %>
+    <p class="auth-footer">Already have an account? <%= link_to "Sign in", login_path, class: "text-link !text-xs" %></p>
+  </section>
+</div>

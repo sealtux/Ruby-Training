@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "My tasks" %> · Taskroom</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <% if training_day >= 7 %><link rel="stylesheet" href="/tailwind.css"><% end %>
+  </head>
+  <body class="<%= 'event-day' if training_day >= 10 %>">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <div class="app-shell">
+      <header class="site-header">
+        <%= link_to training_day >= 10 ? events_path : root_path, class: "brand", aria: { label: training_day >= 10 ? "Event Manager home" : "Taskroom home" } do %>
+          <span class="brand-symbol" aria-hidden="true"><span></span></span>
+          <span class="brand-name"><% if training_day >= 10 %>Event<br>House.<% else %>Task<br>Room.<% end %></span>
+        <% end %>
+        <nav class="top-nav" aria-label="Main navigation">
+          <% if training_day >= 10 && current_user %>
+            <%= link_to "My events", events_path, class: "nav-link #{'active' if controller_name == 'events' && action_name == 'index'}" %>
+            <%= link_to "My tasks", tasks_path, class: "nav-link" %>
+            <%= link_to "Plan an event", new_event_path, class: "button button-small" %>
+            <div class="header-account"><span class="account-email"><%= current_user.email %></span><%= button_to logout_path, method: :delete, class: "icon-button", aria: { label: "Sign out" } do %><%= app_icon("logout") %><% end %></div>
+          <% else %>
+          <%= link_to "Home", root_path, class: "nav-link #{'active' if controller_name == 'tasks' && action_name == 'index'}", aria: { current: ("page" if controller_name == "tasks" && action_name == "index") } %>
+          <% if training_day < 9 || current_user %>
+            <%= link_to "My tasks", tasks_path(anchor: "tasks-heading"), class: "nav-link" %>
+            <%= link_to "New task", new_task_path, class: "button button-small" %>
+            <% if current_user %>
+              <div class="header-account"><span class="account-email"><%= current_user.email %></span><%= button_to logout_path, method: :delete, class: "icon-button", aria: { label: "Sign out" } do %><%= app_icon("logout") %><% end %></div>
+            <% end %>
+          <% else %>
+            <%= link_to "Sign in", login_path, class: "nav-link #{'active' if action_name == 'new'}" %>
+            <%= link_to "Sign up", signup_path, class: "button button-small" %>
+          <% end %>
+          <% end %>
+        </nav>
+      </header>
+      <main id="main-content" class="main-content" tabindex="-1">
+        <% flash.each do |type, message| %>
+          <div role="<%= type == 'alert' ? 'alert' : 'status' %>" class="alert <%= 'alert-error' if type == 'alert' %>"><%= message %></div>
+        <% end %>
+        <%= yield %>
+        <footer class="site-footer"><div class="flex items-center gap-3"><span class="footer-dots" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span>Good plans. Great vibes.</span></div><span>Taskroom / Day <%= training_day %> / Made for your next big thing.</span></footer>
+      </main>
+    </div>
+  </body>
+</html>

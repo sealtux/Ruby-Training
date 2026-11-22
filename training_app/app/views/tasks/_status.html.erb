@@ -1,0 +1,1 @@
+<span class="status <%= 'complete' if task.completed? %>"><%= app_icon(task.completed? ? "check" : "clock", css_class: "size-3") %><%= task.completed? ? "Completed" : "In progress" %></span>

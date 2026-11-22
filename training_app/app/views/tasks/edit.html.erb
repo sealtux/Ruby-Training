@@ -1,0 +1,4 @@
+<% content_for :title, "Edit task" %>
+<%= link_to task_path(@task), class: "back-link" do %><%= app_icon("back") %> Back to task<% end %>
+<div class="page-header"><div><p class="eyebrow">A little fine-tuning</p><h1 class="page-heading">Update your task.</h1><p class="page-subtitle">Plans change. Give this one a fresh look.</p></div></div>
+<%= render "form" %>

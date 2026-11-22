@@ -1,0 +1,26 @@
+<% content_for :title, @task.title %>
+<%= link_to tasks_path, class: "back-link" do %><%= app_icon("back") %> Back to my tasks<% end %>
+<article class="panel">
+  <div class="flex flex-wrap items-center justify-between gap-3"><%= render "tasks/status", task: @task %><%= link_to edit_task_path(@task), class: "button button-secondary" do %><%= app_icon("edit") %> Edit task<% end %></div>
+  <h1 class="detail-title"><%= @task.title %></h1>
+  <p class="detail-body"><%= @task.description.presence || "No details added yet. Edit this task to add notes or next steps." %></p>
+  <p class="detail-meta">Created <%= @task.created_at.strftime("%B %-d, %Y") %> · Updated <%= @task.updated_at.strftime("%B %-d, %Y") %></p>
+</article>
+<% if training_day >= 8 %>
+  <section class="comments panel" aria-labelledby="comments-heading">
+    <div class="section-heading"><h2 id="comments-heading">Notes & comments <span class="count-chip"><%= @task.comments.count %></span></h2><%= app_icon("message") %></div>
+    <% if @task.comments.empty? %><p class="mb-6 text-sm muted">A place for your updates, ideas, and small wins. Add the first note below.</p><% end %>
+    <% @task.comments.order(:created_at).each do |comment| %>
+      <article class="comment">
+        <div class="comment-meta"><span>Note · <%= comment.created_at.strftime("%b %-d, %Y · %H:%M") %></span><%= button_to task_comment_path(@task, comment), method: :delete, class: "delete-link", aria: { label: "Delete comment" } do %><%= app_icon("trash", css_class: "size-3") %> Delete<% end %></div>
+        <p class="comment-body"><%= comment.body %></p>
+      </article>
+    <% end %>
+    <% if @comment.errors.any? %><p role="alert" class="alert alert-error"><%= @comment.errors.full_messages.to_sentence %></p><% end %>
+    <%= form_with model: [@task, @comment], local: true do |form| %>
+      <div class="field"><%= form.label :body, "Add a note" %><%= form.text_area :body, required: true, maxlength: 2000, rows: 3, placeholder: "What’s on your mind?" %></div>
+      <%= form.button class: "button" do %><%= app_icon("plus") %> Add comment<% end %>
+    <% end %>
+  </section>
+<% end %>
+<details class="danger-zone"><summary>Delete this task</summary><p class="my-3">This permanently removes the task<%= " and its comments" if training_day >= 8 %>.</p><%= button_to task_path(@task), method: :delete, class: "button button-danger" do %><%= app_icon("trash") %> Delete task permanently<% end %></details>

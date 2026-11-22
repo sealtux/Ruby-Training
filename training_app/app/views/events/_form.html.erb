@@ -1,0 +1,11 @@
+<div class="event-form">
+  <% if @event.errors.any? %><div role="alert" class="alert alert-error"><%= @event.errors.full_messages.to_sentence %></div><% end %>
+  <%= form_with model: @event, local: true do |form| %>
+    <div class="field"><%= form.label :title, "Event name" %><%= form.text_field :title, required: true, maxlength: 150, placeholder: "e.g. Ruby study social" %></div>
+    <div class="field"><%= form.label :location, "Location" %><%= form.text_field :location, required: true, maxlength: 150, placeholder: "e.g. Manila Community Hub" %></div>
+    <div class="grid gap-6 sm:grid-cols-2"><div class="field"><%= form.label :starts_at, "Starts" %><%= form.datetime_local_field :starts_at, required: true %></div><div class="field"><%= form.label :ends_at, "Ends" %><%= form.datetime_local_field :ends_at %><p class="field-hint">Leave blank for a two-hour event.</p></div></div>
+    <div class="field"><%= form.label :description, "A few details" %><%= form.text_area :description, rows: 4, maxlength: 2000, placeholder: "What should guests know?" %></div>
+    <fieldset><legend class="mb-3 text-sm font-semibold text-[#394441]">Guest list</legend><p class="mb-4 text-xs text-[#74807b]">Add up to three guests now. You can leave any row blank.</p><%= form.fields_for :guests do |guest_form| %><div class="guest-fields"><div><%= guest_form.label :name, "Guest name" %><%= guest_form.text_field :name, maxlength: 100, placeholder: "Name" %></div><div><%= guest_form.label :email, "Email address" %><%= guest_form.email_field :email, placeholder: "name@example.com" %></div></div><% end %></fieldset>
+    <div class="form-actions"><%= form.button @event.persisted? ? "Save event" : "Create event", class: "button !bg-[#4bafa3] !text-white hover:!bg-[#3d978d]" %><%= link_to "Cancel", @event.persisted? ? @event : events_path, class: "text-link !text-[#398f85]" %></div>
+  <% end %>
+</div>

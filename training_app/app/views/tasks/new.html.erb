@@ -1,0 +1,4 @@
+<% content_for :title, "New task" %>
+<%= link_to tasks_path, class: "back-link" do %><%= app_icon("back") %> Back to my tasks<% end %>
+<div class="page-header"><div><p class="eyebrow">Start with a small step</p><h1 class="page-heading">Make a little plan.</h1><p class="page-subtitle">Turn something on your mind into something you can do.</p></div></div>
+<%= render "form" %>

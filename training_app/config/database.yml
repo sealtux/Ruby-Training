@@ -1,0 +1,10 @@
+default: &default
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  database: <%= ENV.fetch("TRAINING_DATABASE") { File.expand_path("../db/day#{ENV.fetch('TRAINING_DAY', '6')}.sqlite3", __dir__) } %>
+
+development:
+  <<: *default
+test:
+  <<: *default

@@ -1,0 +1,14 @@
+<div class="form-layout">
+  <div class="panel">
+    <% if @task.errors.any? %>
+      <div role="alert" class="alert alert-error"><p class="font-semibold">Let’s fix a couple of details.</p><ul><% @task.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul></div>
+    <% end %>
+    <%= form_with model: @task, local: true do |form| %>
+      <div class="field"><%= form.label :title, "Task name" %><%= form.text_field :title, required: true, maxlength: 150, placeholder: "e.g. Finish my Ruby practice", autofocus: true %></div>
+      <div class="field"><%= form.label :description, "A few details" %><%= form.text_area :description, rows: 5, placeholder: "What would you like to get done?", aria: { describedby: "description-hint" } %><p id="description-hint" class="field-hint">Optional. Add notes, next steps, or anything you want to remember.</p></div>
+      <div class="check-field"><%= form.check_box :completed %><%= form.label :completed, "This task is complete" %></div>
+      <div class="form-actions"><%= form.button class: "button" do %><%= app_icon("check") %><%= @task.persisted? ? "Save changes" : "Create task" %><% end %><%= link_to "Cancel", @task.persisted? ? task_path(@task) : tasks_path, class: "text-link" %></div>
+    <% end %>
+  </div>
+  <aside class="form-note self-start"><%= app_icon("spark") %><h2 class="mt-4">Little steps. Big things.</h2><p>A clear task is easier to start. Give it a short, specific name and focus on one thing you can do next.</p><img src="/images/retro-workspace.png" width="1312" height="1199" alt="" loading="lazy"></aside>
+</div>

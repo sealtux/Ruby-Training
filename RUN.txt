@@ -1,0 +1,40 @@
+OJT runnable exercises — Ruby 3.2+ required.
+This project is tested with Ruby 3.4.
+
+First-time dependency setup (internet required):
+  bundle install
+
+Run one day at a time from this folder:
+  ruby day01_setup_and_git_fundamentals.rb
+  ruby day02_ruby_basics.rb
+  ruby day03_enumerable_and_debugging.rb Ana --debug
+  ruby day04_object_oriented_ruby.rb
+  ruby day05_advanced_ruby_and_rspec.rb
+  ruby day06_rails_setup_and_basics.rb
+  ruby day07_controllers_views_and_tailwind.rb
+  ruby day08_active_record_and_associations.rb
+  ruby day09_forms_and_authentication.rb
+  ruby day10_advanced_forms_and_final_project.rb
+
+Day 1: checks your Ruby and Git setup, then shows the Git practice commands.
+Days 6–10: open the address printed after "Day N:" and stop with Ctrl+C.
+The launcher starts at port 3000 and automatically uses another port if busy.
+Use PORT=3001 ruby day08_active_record_and_associations.rb to require a specific port.
+If that explicit port is occupied, omit PORT to choose automatically.
+Day 6: task CRUD. Day 7: adds compiled Tailwind styles.
+Day 8: adds task comments. Day 9: adds sign-up/sign-in and private tasks.
+Each day has its own SQLite database; records persist between runs.
+Day 9: create an account first; use a password of at least 10 characters.
+Day 10: an authenticated Event Manager with nested guest forms and an automatic two-hour end time.
+Rails files live in training_app; launchers share them to avoid duplication.
+Tailwind is compiled locally on startup, so no CDN connection is needed.
+These are local development exercises; the server binds to localhost.
+
+Tests:
+  bundle exec rspec spec/server_port_spec.rb spec/server_startup_spec.rb
+  bundle exec rspec spec/shopping_cart_spec.rb
+  TRAINING_DAY=6 bundle exec rspec spec/rails_app_spec.rb
+  TRAINING_DAY=7 bundle exec rspec spec/rails_app_spec.rb
+  TRAINING_DAY=8 bundle exec rspec spec/rails_app_spec.rb
+  TRAINING_DAY=9 bundle exec rspec spec/rails_app_spec.rb
+  TRAINING_DAY=10 bundle exec rspec spec/rails_app_spec.rb

@@ -1,0 +1,6 @@
+/.bundle/
+/vendor/bundle/
+/training_app/db/*.sqlite3*
+/training_app/log/*
+/training_app/tmp/*
+/training_app/public/tailwind.css

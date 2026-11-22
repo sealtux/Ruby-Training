@@ -1,0 +1,32 @@
+<% content_for :title, "Event Manager" %>
+<section class="event-page" aria-labelledby="events-heading">
+  <header class="event-hero">
+    <div class="event-hero-copy">
+      <p class="event-kicker">Your plans, beautifully organized</p>
+      <h1 id="events-heading">Welcome Home</h1>
+      <p>Create meaningful moments, invite your people, and keep every detail in one calm place.</p>
+    </div>
+    <div class="event-search" aria-label="Event overview">
+      <span><strong class="block text-[#394441]">My events</strong><%= pluralize(@events.count, "event") %> planned</span>
+      <span><strong class="block text-[#394441]">Guest list</strong><%= @events.sum { |event| event.guests.count } %> invited guests</span>
+      <%= link_to "Plan an event", new_event_path, class: "button" %>
+    </div>
+  </header>
+
+  <div class="event-toolbar"><h2>Your upcoming gatherings</h2><%= link_to "+ New event", new_event_path, class: "text-link !text-[#398f85]" %></div>
+  <% if @events.empty? %>
+    <div class="event-empty"><h2 class="text-2xl font-light text-[#35403c]">Your calendar is waiting.</h2><p class="mx-auto mt-3 max-w-md text-sm leading-6 text-[#737d78]">Start with one occasion, add a few guests, and let the plans take shape.</p><%= link_to "Create your first event", new_event_path, class: "button mt-7 !bg-[#4bafa3] !text-white hover:!bg-[#3d978d]" %></div>
+  <% else %>
+    <div class="event-card-grid">
+      <% @events.each do |event| %>
+        <article class="event-card">
+          <p class="event-date"><%= event.schedule_label %> · <%= event.starts_at.strftime("%B %-d, %Y") %></p>
+          <h3><%= event.title %></h3>
+          <p><%= event.location %> · <%= event.starts_at.strftime("%-I:%M %p") %></p>
+          <p><%= event.description.presence || "A thoughtful gathering is on the calendar." %></p>
+          <div class="event-card-footer"><span><%= pluralize(event.guests.count, "guest") %></span><%= link_to "View event →", event, class: "text-link !text-xs !text-[#398f85]" %></div>
+        </article>
+      <% end %>
+    </div>
+  <% end %>
+</section>
